@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2016 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+    
+
+
+    <title>Music App</title>
+        <link rel="icon" type="image/png" href="img/icon.png">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css" />
+        <link rel="stylesheet" href="vendor/waves/waves.min.css" />
+        <link rel="stylesheet" href="vendor/wow/animate.css" />
+        <link rel="stylesheet" href="css/nativedroid2.css" />
+        <link rel="stylesheet" href="css/mystyles.css" />
+        <link rel="stylesheet" type="text/css" href="css/map-icons.css">
+
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+        <script type="text/javascript" src="cordova.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBR6GIIWA-rPfqlglmxi1N0xdfSpHNxCeA"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+        <script src="vendor/waves/waves.min.js"></script>
+        <script src="vendor/wow/wow.min.js"></script>
+        <script src="js/nativedroid2.js"></script>
+        <script src="js/howler.core.js"></script>
+        <script src="nd2settings.js"></script>
+        <script type="text/javascript" src="js/map-icons.js"></script>
+        <script src="js/myscripts.js"></script>
+
+</head>
+
+<body>
+
+
+         <div data-role="page">
+
+            <nd2-include data-src="pages/fragments/panel.left.main.html"></nd2-include>
+
+
+            <div data-role="header" data-position="fixed" class="" data-wow-delay="0.2s">
+                <a href="#leftpanel" class="ui-btn ui-btn-left" data-wow-delay='0.4s'><i class="zmdi zmdi-menu"></i></a>
+                <h1 class="" data-wow-delay='0.4s'>Map</h1>
+            </div>
+
+            <div role="main" class="ui-content" data-inset="false" id="mainDiv">
+
+
+                <!--VENUE POPUP -->
+               <div data-role="popup" id="waterworthPopup">
+
+                      <div  data-role="header">
+                        <h1 class='nd-title' style="text-align: center;">Venue Info</h1>
+                        <div class="closeButton nd-title"><a onclick="" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-times"></i></a></div>
+                        
+                    </div>
+
+                    <div data-role="content">
+                        <h4 class='nd-title' style="text-align: center;">Waterworth Venue</h4>
+                        <p>INFO ABOUT THE VENUE... Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+
+                        <a onclick="playMusic(getMarkerByPopupId('waterworthPopup'));" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class='fas fa-music'></i> Play Music</a>
+
+                        <a onclick="toogleDirections(getMarkerByPopupId('waterworthPopup'))" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-route"></i> Toogle Path</a>
+
+                        <div class="row center-xs">
+                            <div class="col-xs">
+                                <div class="box">
+                                    
+                                    <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                                        <div class="row center-xs">
+                                         <div class="col-xs">
+                                            <i class="zmdi zmdi-flip zmd-fw"></i> Overlay
+                                         </div>
+                                        </div>
+                                        
+
+                                        <input onclick="getMarkerByPopupId('waterworthPopup').overlay[0].show();" type="radio" name="waterworthPopup-choice" id="waterworthPopup-choice-1" value="waterworthPopup-choice-1">
+                                        <label for="waterworthPopup-choice-1">Floor 1</label>
+
+
+                                        <input onclick="getMarkerByPopupId('waterworthPopup').overlay[1].show();" type="radio" name="waterworthPopup-choice" id="waterworthPopup-choice-2" value="waterworthPopup-2">
+                                        <label for="waterworthPopup-choice-2">Road</label>
+
+                          
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+
+                         <a onclick="" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-arrow-circle-right"></i> Visit Page</a>
+
+                    </div>
+                </div>
+
+
+
+
+
+                <div data-role="popup" id="soundMusicPopup">
+
+                      <div  data-role="header">
+                        <h1 class='nd-title' style="text-align: center;">Venue Info</h1>
+                        <div class="closeButton nd-title"><a onclick="" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-times"></i></a></div>
+                        
+                    </div>
+
+                    <div data-role="content">
+                        <h4 class='nd-title' style="text-align: center;">Sound Music Venue</h4>
+                        <p>Sound Music Venue is the most popular music venue in Cheltenham according to Google. The venue is open daily 18:30 - 00:00. Such musicians as John Adams, Ella Martini, Signal My Escape and others perform here. The venue is also available for private hire. </p>
+
+                        <a onclick="playMusic(getMarkerByPopupId('soundMusicPopup'));" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class='fas fa-music'></i> Play Music</a>
+
+                        <a onclick="toogleDirections(getMarkerByPopupId('soundMusicPopup'))" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-route"></i> Toogle Path</a>
+
+                        <div class="row center-xs">
+                            <div class="col-xs">
+                                <div class="box">
+                                    
+                                   <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                                        <div class="row center-xs">
+                                         <div class="col-xs">
+                                            <i class="zmdi zmdi-flip zmd-fw"></i> Overlay
+                                         </div>
+                                        </div>
+
+                                        <input onclick="getMarkerByPopupId('soundMusicPopup').overlay[0].show();" type="radio" name="soundMusicPopup-choice" id="soundMusicPopup-choice-1" value="soundMusicPopup-choice-1">
+                                        <label for="soundMusicPopup-choice-1">Floor 1</label>
+
+
+                                        <input onclick="getMarkerByPopupId('soundMusicPopup').overlay[1].show();" type="radio" name="soundMusicPopup-choice" id="soundMusicPopup-choice-2" value="soundMusicPopup-2">
+                                        <label for="soundMusicPopup-choice-2">Floor 2</label>
+
+                          
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+
+                         <a onclick="" href="pages/elements/venue_1.html" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-arrow-circle-right"></i> Visit Page</a>
+
+                    </div>
+                </div>
+
+
+
+
+
+
+                <div data-role="popup" id="cheltenhamStagePopup">
+
+                      <div  data-role="header">
+                        <h1 class='nd-title' style="text-align: center;">Venue Info</h1>
+                        <div class="closeButton nd-title"><a onclick="" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-times"></i></a></div>
+                        
+                    </div>
+
+                    <div data-role="content">
+                        <h4 class='nd-title' style="text-align: center;">Cheltenham Stage Venue</h4>
+                        <p>Cheltenham Stage is a club that hosts a lot of different parties and hires DJs from all around the UK. These parties have a memorable impact to people, so it's not surprising that the club is extremely popular among teenagers.</p>
+
+                        <a onclick="playMusic(getMarkerByPopupId('cheltenhamStagePopup'));" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class='fas fa-music'></i> Play Music</a>
+
+                        <a onclick="toogleDirections(getMarkerByPopupId('cheltenhamStagePopup'))" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-route"></i> Toogle Path</a>
+
+                        <div class="row center-xs">
+                            <div class="col-xs">
+                                <div class="box">
+                                    
+                                   <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                                        <div class="row center-xs">
+                                         <div class="col-xs">
+                                            <i class="zmdi zmdi-flip zmd-fw"></i> Overlay
+                                         </div>
+                                        </div>
+
+                                        <input onclick="getMarkerByPopupId('cheltenhamStagePopup').overlay[0].show();" type="radio" name="cheltenhamStagePopup-choice" id="cheltenhamStagePopup-choice-1" value="cheltenhamStagePopup-choice-1">
+                                        <label for="cheltenhamStagePopup-choice-1">Floor 1</label>
+
+
+                                        <input onclick="getMarkerByPopupId('cheltenhamStagePopup').overlay[1].show();" type="radio" name="cheltenhamStagePopup-choice" id="cheltenhamStagePopup-choice-2" value="cheltenhamStagePopup-2">
+                                        <label for="cheltenhamStagePopup-choice-2">Floor 2</label>
+
+
+                                        <input onclick="getMarkerByPopupId('cheltenhamStagePopup').overlay[2].show();" type="radio" name="cheltenhamStagePopup-choice" id="cheltenhamStagePopup-choice-3" value="cheltenhamStagePopup-3">
+                                        <label for="cheltenhamStagePopup-choice-3">Floor 3</label>
+
+                          
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+
+                         <a onclick="" href="pages/elements/venue_2.html" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-arrow-circle-right"></i> Visit Page</a>
+
+                    </div>
+                </div>
+
+
+
+
+
+
+                 <div data-role="popup" id="cheltenhamFestivalsPopup">
+
+                      <div  data-role="header">
+                        <h1 class='nd-title' style="text-align: center;">Venue Info</h1>
+                        <div class="closeButton nd-title"><a onclick="" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-times"></i></a></div>
+                        
+                    </div>
+
+                    <div data-role="content">
+                        <h4 class='nd-title' style="text-align: center;">Cheltenham Festivals Venue</h4>
+                        <p>People say that Cheltenham Festivals make Cheltenham a special place to live in. These literature, music and science festivals are held a few times a year in the same place.</p>
+
+                        <a onclick="playMusic(getMarkerByPopupId('cheltenhamFestivalsPopup'));" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class='fas fa-music'></i> Play Music</a>
+
+                        <a onclick="toogleDirections(getMarkerByPopupId('cheltenhamFestivalsPopup'))" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-route"></i> Toogle Path</a>
+
+                        <div class="row center-xs">
+                            <div class="col-xs">
+                                <div class="box">
+                                    
+                                   <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                                        <div class="row center-xs">
+                                         <div class="col-xs">
+                                            <i class="zmdi zmdi-flip zmd-fw"></i> Overlay
+                                         </div>
+                                        </div>
+
+                                        <input onclick="getMarkerByPopupId('cheltenhamFestivalsPopup').overlay[0].show();" type="radio" name="cheltenhamFestivalsPopup-choice" id="cheltenhamFestivalsPopup-choice-1" value="cheltenhamFestivalsPopup-choice-1">
+                                        <label for="cheltenhamFestivalsPopup-choice-1">Floor 1</label>
+
+
+                                        <input onclick="getMarkerByPopupId('cheltenhamFestivalsPopup').overlay[1].show();" type="radio" name="cheltenhamFestivalsPopup-choice" id="cheltenhamFestivalsPopup-choice-2" value="cheltenhamFestivalsPopup-2">
+                                        <label for="cheltenhamFestivalsPopup-choice-2">Floor 2</label>
+
+                          
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+
+                         <a onclick="" href="pages/elements/venue_3.html" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-arrow-circle-right"></i> Visit Page</a>
+
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+                <div data-role="popup" id="royalAlbertPopup">
+
+                      <div  data-role="header">
+                        <h1 class='nd-title' style="text-align: center;">Venue Info</h1>
+                        <div class="closeButton nd-title"><a onclick="" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-times"></i></a></div>
+                        
+                    </div>
+
+                    <div data-role="content">
+                        <h4 class='nd-title' style="text-align: center;">Royal Albert Hall</h4>
+                        <p>The Royal Albert Hall is a concert hall on the northern edge of South Kensington, London, and is one of the UK's most treasured and distinctive buildings.</p>
+
+                        <a onclick="playMusic(getMarkerByPopupId('royalAlbertPopup'));" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class='fas fa-music'></i> Play Music</a>
+
+                        <a onclick="toogleDirections(getMarkerByPopupId('royalAlbertPopup'))" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-route"></i> Toogle Path</a>
+
+                        <div class="row center-xs">
+                            <div class="col-xs">
+                                <div class="box">
+                                    
+                                   <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                                        <div class="row center-xs">
+                                         <div class="col-xs">
+                                            <i class="zmdi zmdi-flip zmd-fw"></i> Overlay
+                                         </div>
+                                        </div>
+
+                                        <input onclick="getMarkerByPopupId('royalAlbertPopup').overlay[0].show();" type="radio" name="royalAlbertPopup-choice" id="royalAlbertPopup-choice-1" value="royalAlbertPopup-choice-1">
+                                        <label for="royalAlbertPopup-choice-1">Arena</label>
+
+                          
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+
+                         <a onclick="" href="pages/elements/venue_4.html" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-arrow-circle-right"></i> Visit Page</a>
+
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+                <!--POI POPUP -->
+                <div data-role="popup" id="hareAndMinotaurPopup">
+
+                    <div  data-role="header">
+                        <h1 class='nd-title' style="text-align: center;">POI Info</h1>
+                        <div class="closeButton nd-title"><a onclick="" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-times"></i></a></div>
+                        
+                    </div>
+
+                    <div data-role="content">
+                        <h4 class='nd-title' style="text-align: center;">The Hare and the Minotaur POI</h4>
+                        <p>The Hare and the Minotaur Statue in Cheltenham can be found on The Promenade, outside House of Fraser. It is a truly remarkable statue, and although not everyone loves it, it is worth a stop on your visit to Cheltenham.</p>
+
+                        <a onclick="playMusic(getMarkerByPopupId('hareAndMinotaurPopup'));" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class='fas fa-music'></i> Play Music</a>
+
+                        <a onclick="toogleDirections(getMarkerByPopupId('hareAndMinotaurPopup'))" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-route"></i> Toogle Path</a>
+
+                        <a onclick="goToPage('pages/elements/poi_1.html')" href="#" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-arrow-circle-right"></i> Visit Page</a>
+
+
+                    </div>
+                </div>
+
+
+
+                <div data-role="popup" id="gustavHolstPopup">
+
+                    <div  data-role="header">
+                        <h1 class='nd-title' style="text-align: center;">POI Info</h1>
+                        <div class="closeButton nd-title"><a onclick="" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-times"></i></a></div>
+                        
+                    </div>
+
+                    <div data-role="content">
+                        <h4 class='nd-title' style="text-align: center;">Gustav Holst Statue POI</h4>
+                        <p>Gustav Holst was at the heart of the renaissance in English music during the first half of the 20th century. His statue was unveiled on 4 April 2008 by Mark Elder, the Music Director of the Halle Orchestra.</p>
+
+                        <a onclick="playMusic(getMarkerByPopupId('gustavHolstPopup'));" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class='fas fa-music'></i> Play Music</a>
+
+                        <a onclick="toogleDirections(getMarkerByPopupId('gustavHolstPopup'))" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-route"></i> Toogle Path</a>
+
+                        <a onclick="goToPage('pages/elements/poi_2.html')" href="#" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-arrow-circle-right"></i> Visit Page</a>
+
+                    </div>
+                </div>
+
+
+
+                <div data-role="popup" id="neptunePopup">
+
+                    <div  data-role="header">
+                        <h1 class='nd-title' style="text-align: center;">POI Info</h1>
+                        <div class="closeButton nd-title"><a onclick="" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-times"></i></a></div>
+                        
+                    </div>
+
+                    <div data-role="content">
+                        <h4 class='nd-title' style="text-align: center;">The Neptune Fountain POI</h4>
+                        <p>The Neptune Fountain is a monumental statuesque piece depicting Greek god Neptune in a shell-chariot, being drawn by four sea-horses and heralded by conch-shell blowing merman. </p>
+
+                        <a onclick="playMusic(getMarkerByPopupId('neptunePopup'));" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class='fas fa-music'></i> Play Music</a>
+
+                        <a onclick="toogleDirections(getMarkerByPopupId('neptunePopup'))" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-route"></i> Toogle Path</a>
+
+                        <a onclick="goToPage('pages/elements/poi_3.html')" href="#" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-arrow-circle-right"></i> Visit Page</a>
+
+
+                    </div>
+                </div>
+
+
+
+                <div data-role="popup" id="hailesAbbeyPopup">
+
+                    <div  data-role="header">
+                        <h1 class='nd-title' style="text-align: center;">POI Info</h1>
+                        <div class="closeButton nd-title"><a onclick="" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-times"></i></a></div>
+                        
+                    </div>
+
+                    <div data-role="content">
+                        <h4 class='nd-title' style="text-align: center;">Hailes Abbey POI</h4>
+                        <p>Founded in 1246 by the Earl of Cornwall, Hailes Abbey is set amid delightful Cotswold countryside.Once the centre of monastic life, the tranquil ruins are now the perfect place to relax and enjoy a picnic in a unique historic setting.</p>
+
+                        <a onclick="playMusic(getMarkerByPopupId('hailesAbbeyPopup'));" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class='fas fa-music'></i> Play Music</a>
+
+                        <a onclick="toogleDirections(getMarkerByPopupId('hailesAbbeyPopup'))" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-route"></i> Toogle Path</a>
+
+                    <a onclick="goToPage('pages/elements/poi_4.html')" href="#" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-arrow-circle-right"></i> Visit Page</a>
+
+
+                    </div>
+                </div>
+
+
+
+                <div data-role="popup" id="fishClockPopup">
+
+                    <div  data-role="header">
+                        <h1 class='nd-title' style="text-align: center;">POI Info</h1>
+                        <div class="closeButton nd-title"><a onclick="" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-times"></i></a></div>
+                        
+                    </div>
+
+                    <div data-role="content">
+                        <h4 class='nd-title' style="text-align: center;">Wishing Fish Clock POI </h4>
+                        <p>On the half hour the clock, in Cheltenham's Regency Arcade, plays a tune - on the hour a large wooden fish blows bubbles.</p>
+
+                        <a onclick="playMusic(getMarkerByPopupId('fishClockPopup'));" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class='fas fa-music'></i> Play Music</a>
+
+                        <a onclick="toogleDirections(getMarkerByPopupId('fishClockPopup'))" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-route"></i> Toogle Path</a>
+
+                        <a onclick="goToPage('pages/elements/poi_5.html')" href="#" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-arrow-circle-right"></i> Visit Page</a>
+
+
+                    </div>
+                </div>
+
+
+
+                <div data-role="popup" id="warMemorialPopup">
+
+                    <div  data-role="header">
+                        <h1 class='nd-title' style="text-align: center;">POI Info</h1>
+                        <div class="closeButton nd-title"><a onclick="" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-times"></i></a></div>
+                        
+                    </div>
+
+                    <div data-role="content">
+                        <h4 class='nd-title' style="text-align: center;">Boer War Memorial POI </h4>
+                        <p> Bronze figure of a Boer War soldier with arms reversed set a top a white stone plinth. Inscription on front face of those who died, side faces for those who served.</p>
+
+                        <a onclick="playMusic(getMarkerByPopupId('warMemorialPopup'));" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class='fas fa-music'></i> Play Music</a>
+
+                        <a onclick="toogleDirections(getMarkerByPopupId('warMemorialPopup'))" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-route"></i> Toogle Path</a>
+
+                        <a onclick="goToPage('pages/elements/poi_6.html')" href="#" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-arrow-circle-right"></i> Visit Page</a>
+
+
+                    </div>
+                </div>
+
+
+
+
+
+
+                <!--USER POPUP -->
+                 <div data-role="popup" id="EthelChancyPopup">
+
+                    <div  data-role="header">
+                        <h1 class='nd-title' style="text-align: center;">User Info</h1>
+                        <div class="closeButton nd-title"><a onclick="" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-times"></i></a></div>
+                        
+                    </div>
+
+                    <div data-role="content">
+                        <div class='col center-xs'>
+                            <strong>Ethel Chancy</strong>
+                        </div>
+                        <div class="row">
+                        <div class='col-xs-4'>
+                            <div class='box'>
+                                <img class="profile-thumbnail userImages" src="img/people/1.jpeg" width="80" />
+                            </div>
+                        </div>
+                        <div class='col-xs-8'>
+                            <div class='box profile-text'>
+                                
+                                    <p>Consectetur adipisicing elit. Praesentium magnam consectetur vel in deserunt aspernatur est reprehenderit sunt hic. Nulla tempora soluta ea et odio, unde doloremque repellendus iure, iste.</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                        <a onclick="goToPage('pages/elements/friend_profile.html')" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-arrow-circle-right"></i> Visit Page</a>
+
+                    </div>
+                </div>
+
+
+
+
+
+
+                    
+                    <div data-role="popup" id="LoreanGainerPopup">
+
+                    <div  data-role="header">
+                        <h1 class='nd-title' style="text-align: center;">User Info</h1>
+                        <div class="closeButton nd-title"><a onclick="" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-times"></i></a></div>
+                        
+                    </div>
+
+                    <div data-role="content">
+                        <div class='col center-xs'>
+                            <strong>Lorean Gainer</strong>
+                        </div>
+                        <div class="row">
+                        <div class='col-xs-4'>
+                            <div class='box'>
+                                <img class="profile-thumbnail userImages" src="img/people/2.jpeg" width="80" />
+                            </div>
+                        </div>
+                        <div class='col-xs-8'>
+                            <div class='box profile-text'>
+                                
+                                    <p>Consectetur adipisicing elit. Praesentium magnam consectetur vel in deserunt aspernatur est reprehenderit sunt hic. Nulla tempora soluta ea et odio, unde doloremque repellendus iure, iste.</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                        <a onclick="goToPage('pages/elements/friend_profile_2.html')" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-arrow-circle-right"></i> Visit Page</a>
+
+                    </div>
+                </div>
+
+
+
+
+
+
+
+                 <div data-role="popup" id="JulietGiesekePopup">
+
+                    <div  data-role="header">
+                        <h1 class='nd-title' style="text-align: center;">User Info</h1>
+                        <div class="closeButton nd-title"><a onclick="" href="#" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-times"></i></a></div>
+                        
+                    </div>
+
+                    <div data-role="content">
+                        <div class='col center-xs'>
+                            <strong>Juliet Gieseke</strong>
+                        </div>
+                        <div class="row">
+                        <div class='col-xs-4'>
+                            <div class='box'>
+                                <img class="profile-thumbnail userImages" src="img/people/3.jpeg" width="80" />
+                            </div>
+                        </div>
+                        <div class='col-xs-8'>
+                            <div class='box profile-text'>
+                                
+                                    <p>Consectetur adipisicing elit. Praesentium magnam consectetur vel in deserunt aspernatur est reprehenderit sunt hic. Nulla tempora soluta ea et odio, unde doloremque repellendus iure, iste.</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                        <a onclick="goToPage('pages/elements/friend_profile_3.html')"  data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class="fas fa-arrow-circle-right"></i> Visit Page</a>
+
+                    </div>
+                </div>
+
+
+
+
+
+
+                 
+
+
+            
+
+
+
+
+
+                <!-- MAP CONTROLS -->
+                <div class="col" id='underMapButtons'>
+                    <div class="row end-xs">
+                        <div class="box"><span title="Change map type"><a href="#" onclick="changeMapType()" class="ui-btn ui-btn-raised ui-mini"><i style="font-size: 20px;" class="fas fa-globe"></i></i></a></span></div>
+                    </div>
+
+
+                    <div class="row end-xs">
+                        <div class="box"><span title="Center Map"><a href="#" onclick="centerMap()" class="ui-btn ui-btn-raised ui-mini"><i style="font-size: 20px;" class="fas fa-location-arrow"></i></a></span> </div>
+                    </div>
+
+                    <div class="row end-xs">
+                        <div class="box"><span title="Toggle info about POI"><a href="#" onclick="toggleInfoWindows()" class="ui-btn ui-btn-raised ui-mini"><i style="font-size: 20px;" class="fas fa-info"></i></a></span></div>
+                    </div>
+
+                    <div class="row end-xs">
+                        <div class="box"><span title="Stop Music"><a href="#" onclick="stopMusic()" class="ui-btn ui-btn-raised ui-mini"><i style="font-size: 20px;" class="fas fa-volume-mute"></i></a></span></div>
+                    </div>
+
+                    <div class="row end-xs">
+                        <div class="box"><span title="Hide Overlays"><a href="#" onclick="hideOverlays()" class="ui-btn ui-btn-raised ui-mini"><i style="font-size: 18px;" class="fas fa-eye-slash"></i></a></span></div>
+                    </div>
+                    
+                </div>
+                
+                
+
+
+
+            </div>
+
+        </div>
+
+
+        
+ <div id="map"></div>
+
+
+
+
+
+</body>
+
+</html>

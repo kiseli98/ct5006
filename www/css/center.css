@@ -1,0 +1,64 @@
+ .col-1 {
+   margin:0 auto; 
+   width:45%; /* desktop devices */
+}
+
+.col2 {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.col3 {
+  width:100%;
+  max-width: 100%;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+@media only screen and (max-width: 768px) {
+  [class*="col-"] {
+    width: 100%; /* mobile devices */
+  }
+}
+
+  .ui-panel-inner {
+   position: relative;
+  }
+
+  #exit{
+    position: absolute;
+    bottom: 3.5%;
+    left: 30px;
+
+  }
+
+  #albumpic {
+  max-width: 100%;
+  height: auto;
+  }
+
+  #centeredDiv {
+  position:absolute;
+  top: 10%;
+  left: 10%
+  margin-top:-20px ;(half the height of the container)
+  margin-left: -100px; (half the width of the container)
+}
+
+  #textcenter {
+    text-align: center;
+  }
+
+  .textcentered {
+    text-align: center;
+  }
+
+
+
+
+
+

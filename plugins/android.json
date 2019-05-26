@@ -1,0 +1,52 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-battery-status": {
+      "PACKAGE_NAME": "uk.ac.glos.studentsites.notfound"
+    },
+    "cordova-plugin-camera": {
+      "PACKAGE_NAME": "uk.ac.glos.studentsites.notfound"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "uk.ac.glos.studentsites.notfound"
+    },
+    "cordova-plugin-dialogs": {
+      "PACKAGE_NAME": "uk.ac.glos.studentsites.notfound"
+    },
+    "cordova-plugin-geolocation": {
+      "PACKAGE_NAME": "uk.ac.glos.studentsites.notfound"
+    },
+    "cordova-plugin-globalization": {
+      "PACKAGE_NAME": "uk.ac.glos.studentsites.notfound"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "uk.ac.glos.studentsites.notfound"
+    },
+    "cordova-plugin-media-capture": {
+      "PACKAGE_NAME": "uk.ac.glos.studentsites.notfound"
+    },
+    "cordova-plugin-network-information": {
+      "PACKAGE_NAME": "uk.ac.glos.studentsites.notfound"
+    },
+    "cordova-plugin-vibration": {
+      "PACKAGE_NAME": "uk.ac.glos.studentsites.notfound"
+    },
+    "cordova-plugin-flashlight": {
+      "PACKAGE_NAME": "uk.ac.glos.studentsites.notfound"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "uk.ac.glos.studentsites.notfound"
+    }
+  },
+  "dependent_plugins": {
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "uk.ac.glos.studentsites.notfound"
+    }
+  }
+}

@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+
+		<meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="img-src * 'self' data:; default-src * 'unsafe-inline' gap:; style-src * 'self' 'unsafe-inline'; media-src *" />
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+    
+    
+		<title>Music App</title><link rel="icon" type="image/png" href="../../img/icon.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../../vendor/jquerymobile/jquery.mobile.min.css" />
+		<link rel="stylesheet" href="../../vendor/waves/waves.min.css" />
+		<link rel="stylesheet" href="../../vendor/wow/animate.css" />
+		<link rel="stylesheet" href="../../css/nativedroid2.css" />
+		<link rel="stylesheet" href="../../css/center.css" />
+
+
+		<style>
+			/* Prevent FOUC */
+			body v{ opacity: 0; }
+		</style>
+
+	</head>
+	<body>
+
+
+		<div data-role="page" class="nd2-no-menu-swipe">
+
+			<nd2-include data-src="../../pages/fragments/panel.left.html"></nd2-include>
+
+			<div data-role="header" data-position="fixed" class="wow fadeIn">
+				<a href="#leftpanel" class="ui-btn ui-btn-left wow fadeIn" data-wow-delay='0.8s'><i class="zmdi zmdi-menu"></i></a>
+				<h1 class="wow fadeIn" data-wow-delay='0.4s'>Sign up</h1>
+			</div>
+
+			<div role="main" class="ui-content wow fadeIn" data-inset="false" data-wow-delay="0.2s">
+
+				<form>
+					<div class="col-1">
+
+                        <label for="name2b">First name:</label>
+                        <input type="text" name="name2" id="name2b" value="" data-clear-btn="true" placeholder="">
+
+
+                        <label for="name2b">Last name:</label>
+                        <input type="text" name="name2" id="name2b" value="" data-clear-btn="true" placeholder="">
+
+                        <label for="inputDate">Date of birth:</label>
+                        <input type="date" name="inputDate" id="inputDate" value="" data-clear-btn="true" placeholder="">
+
+						<fieldset data-role="controlgroup">
+                            <legend>Gender</legend>
+                            <input type="radio" name="radio-choice-1" id="radio-choice-1b" value="choice-1" checked="checked">
+                            <label for="radio-choice-1b">Male</label>
+                            <input type="radio" name="radio-choice-1" id="radio-choice-2b" value="choice-2">
+                            <label for="radio-choice-2b">Female</label>
+             
+                        </fieldset>
+
+                        <label for="inputEmail">E-mail:</label>
+                        <input type="email" name="inputEmail" id="inputEmail" value="" data-clear-btn="true" placeholder="">
+
+                        <label for="textarea2b">Password:</label>
+                        <input type="Password" name="inputEmail" id="inputEmail" value="" data-clear-btn="true" placeholder="">
+
+                        <a href="../../pages/elements/login.html" data-ajax='false' data-icon="false" class="ui-btn ui-btn-raised clr-primary">Sign up</a>
+                    </div>
+
+				</form>
+
+			</div>
+		</div>
+		
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+		<script src="../../vendor/waves/waves.min.js"></script>
+		<script src="../../vendor/wow/wow.min.js"></script>
+		<script src="../../js/nativedroid2.js"></script>
+		<script src="../../nd2settings.js"></script>
+
+	</body>
+</html>
